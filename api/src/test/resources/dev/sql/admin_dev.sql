@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50556
 File Encoding         : 65001
 
-Date: 2018-08-03 14:12:55
+Date: 2018-08-03 14:28:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -18,6 +18,8 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for `permission`
 -- ----------------------------
+CREATE Database admin_dev;
+use admin_dev;
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '权限Id',
