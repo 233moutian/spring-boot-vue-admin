@@ -21,6 +21,13 @@
         <version>2.0.2.RELEASE</version>
     </parent>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+
         <!-- 获取剩余时间jar start -->
         <dependency>
             <groupId>joda-time</groupId>
