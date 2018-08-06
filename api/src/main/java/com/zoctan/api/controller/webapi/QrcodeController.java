@@ -5,6 +5,7 @@ import com.zoctan.api.core.jwt.JWTSetting;
 import com.zoctan.api.core.response.Result;
 import com.zoctan.api.core.response.ResultGenerator;
 import com.zoctan.api.service.QrcodeService;
+import com.zoctan.api.util.DateUtilsZXW;
 import com.zoctan.api.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +44,13 @@ public class QrcodeController {
                             @RequestParam String orderId,
                             @RequestParam String Qrcode,
                             @RequestParam String sign,
-                                 HttpServletRequest req) {
-    //  解签本来就有验参功能,如果少传了什么参数,那也肯定是他那边传过来的时候就已经有问题了.这里不做处理,接口的调用方去处理.
+                            HttpServletRequest req) {
+
+        if (DateUtilsZXW.isValidByFormat(createTime, DateUtilsZXW.DATE_FORMAT_DEFAULT)) {
+            return ResultGenerator.genFailedResult("createTime格式不对, 请传入yyyy-MM-dd HH:mm:ss格式的时间");
+        }
+
+        //  解签本来就有验参功能,如果少传了什么参数,那也肯定是他那边传过来的时候就已经有问题了.这里不做处理,接口的调用方去处理.
         String sessionId = UUID.randomUUID().toString().replaceAll("-", "");
         String ip = WebUtils.getRemoteIp(req);
         String methodName = "QrcodeController.getQrcode";

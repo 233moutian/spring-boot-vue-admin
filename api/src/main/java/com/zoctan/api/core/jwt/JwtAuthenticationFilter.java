@@ -32,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@Nonnull final HttpServletRequest request, @Nonnull final HttpServletResponse response, @Nonnull final FilterChain filterChain)
             throws ServletException, IOException {
-/*
 
         // 解决跨域问题
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -48,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if ("OPTIONS".equals(request.getMethod())) {
             return;
         }
-*/
 
         final String token = this.jwtUtil.getTokenFromRequest(request);
 
