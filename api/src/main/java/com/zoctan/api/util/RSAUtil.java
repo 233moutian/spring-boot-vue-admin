@@ -97,7 +97,6 @@ public class RSAUtil {
         final String temp = new String(keyBytes);
 //        String KeyPEM = temp.replace(headReplace, "");
 //        KeyPEM = KeyPEM.replace(tailReplace, "");
-        System.out.println("KeyPEM : " + temp);
         return Base64.decodeBase64(temp);
     }
 

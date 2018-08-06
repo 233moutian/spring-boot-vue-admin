@@ -1,4 +1,4 @@
-package com.zoctan.api.controller;
+package com.zoctan.api.controller.admin;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

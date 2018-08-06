@@ -1,4 +1,4 @@
-package com.zoctan.api.controller;
+package com.zoctan.api.controller.admin;
 
 import com.zoctan.api.core.response.Result;
 import com.zoctan.api.core.response.ResultGenerator;

@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 
 /**
  * 安全设置
+ * 可以在这里设置不拦截的接口方法
  *
  * @author Zoctan
  * @date 2018/06/09
@@ -57,8 +58,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http)
             throws Exception {
-                http    // 关闭cors
-                .cors().disable()
+        // 关闭cors
+        http.cors().disable()
                 // 关闭csrf
                 .csrf().disable()
                 // 无状态Session
@@ -67,17 +68,27 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(this.jwtAuthenticationEntryPoint).and()
                 // 对所有的请求都做权限校验
                 .authorizeRequests()
-                // 允许登录和注册
+                // 允许登录和注册, 对于获取token的rest api要允许匿名访问
                 .antMatchers(
                         HttpMethod.POST,
                         "/user/login",
                         "/user"
                 ).permitAll()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/",
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
+                ).permitAll()
+                // 允许对外的api接口匿名访问
+                .antMatchers("/api/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated().and();
-
-        http    // 基于定制JWT安全过滤器
-                .addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        // 基于定制JWT安全过滤器
+        http.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         // 禁用页面缓存
         http.headers().cacheControl();
     }
