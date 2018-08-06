@@ -16,6 +16,13 @@ import java.util.List;
 public class Resource extends JSONObject {
     private List<JSONObject> handleList;
 
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "handleList=" + handleList +
+                "} " + super.toString();
+    }
+
     public List<JSONObject> getHandleList() {
         return this.handleList;
     }

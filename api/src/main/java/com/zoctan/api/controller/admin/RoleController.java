@@ -1,5 +1,6 @@
 package com.zoctan.api.controller.admin;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zoctan.api.core.response.Result;
 import com.zoctan.api.core.response.ResultGenerator;
@@ -46,9 +47,8 @@ public class RoleController {
     @GetMapping
     public Result list(@RequestParam(defaultValue = "0") final Integer page,
                        @RequestParam(defaultValue = "0") final Integer size) {
-//        PageHelper.startPage(page, size);
-//        偷鸡处理法,一个系统不会有太多的数量,干脆就不分页了,无论传过来什么分页参数我都不分页查询.一个系统要是真有15中角色,那我改还不行吗
-        final List<com.zoctan.api.model.Resource> list = this.roleService.findAllRoleWithPermission();
+        PageHelper.startPage(page, size);
+        final List<Role> list = this.roleService.getAllRoleWithPermission();
         final PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genOkResult(pageInfo);
     }

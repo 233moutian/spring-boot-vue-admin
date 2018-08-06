@@ -1,7 +1,6 @@
 package com.zoctan.api.service;
 
 import com.zoctan.api.core.service.Service;
-import com.zoctan.api.model.Resource;
 import com.zoctan.api.model.Role;
 
 import java.util.List;
@@ -16,5 +15,9 @@ public interface RoleService extends Service<Role> {
      *
      * @return 角色可控资源列表
      */
-    List<Resource> findAllRoleWithPermission();
+    List<Role> findAllRoleWithPermission();
+    /*
+    * 代替上面那个方法啊,用于修复上面那个方法出现的bug
+    * */
+    List<Role> getAllRoleWithPermission();
 }

@@ -7,6 +7,13 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
     </resultMap>
 
+    <resultMap id="resourceList" type="com.zoctan.api.model.Resource">
+        <result column="permission_resource" jdbcType="VARCHAR" property="resource"/>
+        <collection property="handleList" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="permission_id" jdbcType="BIGINT" property="id"/>
+            <result column="permission_handle" jdbcType="VARCHAR" property="handle"/>
+        </collection>
+    </resultMap>
     <resultMap id="RoleWithPermissionMap" type="com.zoctan.api.model.Role" extends="RoleMap">
         <!-- 1角色对应多权限 -->
         <collection property="resourceList" ofType="com.zoctan.api.model.Resource">
@@ -18,9 +25,28 @@
         </collection>
     </resultMap>
 
+    <select id="findAllRolePermission" parameterType="java.lang.Long" resultMap="resourceList">
+        SELECT
+        p.resource as permission_resource,
+        p.id as permission_id,
+        p.handle as permission_handle
+        from `role_permission` rp LEFT JOIN `permission` p ON rp.permission_id = p.id
+        WHERE rp.role_id = #{rId}
+    </select>
+    <resultMap id="ResourceMap" type="com.zoctan.api.model.Resource">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <select id="findAllRole" resultMap="RoleWithPermissionMap">
+        SELECT
+        r.id, r.name FROM `role` r
+    </select>
+
+
     <select id="findAllRoleWithPermission" resultMap="RoleWithPermissionMap">
         SELECT
-        r.*,
+        r.id, r.name,
         p.id as permission_id,
         p.resource as permission_resource,
         p.handle as permission_handle
@@ -28,4 +54,7 @@
         LEFT JOIN `role_permission` rp ON r.id = rp.role_id
         LEFT JOIN `permission` p ON rp.permission_id = p.id
     </select>
+
+
+
 </mapper>

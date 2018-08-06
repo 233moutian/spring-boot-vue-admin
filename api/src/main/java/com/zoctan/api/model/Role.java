@@ -75,4 +75,14 @@ public class Role {
     public void setPermissionIdList(final List<Integer> permissionIdList) {
         this.permissionIdList = permissionIdList;
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", resourceList=" + resourceList +
+                ", permissionIdList=" + permissionIdList +
+                '}';
+    }
 }

@@ -58,4 +58,25 @@ public class OtherTest {
         System.out.println(RemitApi.checkParams(paramMap, jwtSetting.getPublicKey()));
 
     }
+
+    /*
+    * 测试dao方法
+    * */
+    @Test(timeout = 5000)
+    public void getRole() throws Exception {
+        HashMap<String, String> paramMap = new HashMap<>();
+        paramMap.put("money", "0.10");
+        paramMap.put("createTime", "2018-08-01 16:35:15");
+        paramMap.put("orderId", "Ijw6zgpKRh3OdCpHvBFKsfEnTGOxRKRBocCa3wfirgZJLJNhUVQhhIYqLTvPnCwV");
+        paramMap.put("Qrcode", "aHR0cHM6Ly9lLmFiY2hpbmEuY29tL3FyY29kZS8jIS9xcmNvZGUvMDMwMi9PRE16T0RjNE9ESXhPREE0TURNd01UY3dNRE13TVRnPS9PRE16T0RjNE9ESXhNRE00T0RRME1ESTRPVUV4VTFBPS9PRE16T0RjNE9ESXhOVE16TWpnd01qZ3dNRGN4TURJMU5qWXhOZz09");
+//        paramMap.put("ip", "127.0.0.0");
+
+        RemitApi.signWithKey(paramMap, jwtSetting.getPrivateKey());
+        System.out.println(JSONObject.toJSONString(paramMap));
+
+        System.out.println(RemitApi.checkParams(paramMap, jwtSetting.getPublicKey()));
+
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.zoctan.api.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zoctan.api.core.service.AbstractService;
 import com.zoctan.api.mapper.RoleMapper;
 import com.zoctan.api.mapper.RolePermissionMapper;
@@ -25,10 +26,23 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
     @Resource
     private RolePermissionMapper rolePermissionMapper;
 
+    /*
+    * 弃用此方法,因为sql是一条搞定的,查出来的条数不对
+    * */
     @Override
-    public List<com.zoctan.api.model.Resource> findAllRoleWithPermission() {
+    public List<Role> findAllRoleWithPermission() {
         return this.roleMapper.findAllRoleWithPermission();
     }
+
+    @Override
+    public List<Role> getAllRoleWithPermission() {
+        List<Role> list = this.roleMapper.findAllRole();
+        for (Role role : list) {
+            role.setResourceList(roleMapper.findAllRolePermission(role.getId()));
+        }
+        return list;
+    }
+
 
     @Override
     public void save(final Role role) {
