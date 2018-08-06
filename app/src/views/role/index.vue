@@ -63,7 +63,7 @@
       :current-page="listQuery.page"
       :page-size="listQuery.size"
       :total="total"
-      :page-sizes="[15, 30, 50, 100]"
+      :page-sizes="[10, 30, 50, 100]"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-dialog :title="textMap[dialogStatus]"
@@ -185,7 +185,7 @@
         this.listLoading = true
         getRoleList(this.listQuery).then(response => {
           this.roleList = response.data.list
-          this.total = this.roleList.length
+          this.total = response.data.total
           this.listLoading = false
         })
       },
