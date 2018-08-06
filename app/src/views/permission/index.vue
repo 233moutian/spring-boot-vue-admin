@@ -19,7 +19,7 @@
               border fit highlight-current-row>
       <el-table-column label="#" align="center" width="80">
         <template slot-scope="scope">
-          <span v-text="scope.$index"></span>
+          <span v-text="scope.$index + 1"></span>
         </template>
       </el-table-column>
       <el-table-column label="resource" align="center">
@@ -52,7 +52,7 @@
         </template>
       </el-table-column>
     </el-table>
-
+    <!-- handleSizeChange页码改变时调用这个方法-->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -111,6 +111,9 @@
 
   export default {
     name: 'selectPermission',
+    created() {
+      this.getList()
+    },
     data() {
       return {
         list: [], // 资源列表
@@ -136,15 +139,13 @@
         }
       }
     },
-    created() {
-      this.getList()
-    },
     methods: {
       getList() {
         this.listLoading = true
         listPermission(this.listQuery).then(response => {
           console.log(response.data.list)
           this.list = response.data.list
+          this.total = response.data.total
           this.listLoading = false
         })
       },
@@ -164,6 +165,16 @@
       handleCurrentChange(page) {
         this.listQuery.page = page
         this.getList()
+      },
+      /**
+       * 表格序号
+       * 可参考自定义表格序号
+       * http://element-cn.eleme.io/#/zh-CN/component/table#zi-ding-yi-suo-yin
+       * @param index 数据下标
+       * @returns 表格序号
+       */
+      getIndex(index) {
+        return (this.listQuery.page - 1) * this.listQuery.size + index + 1
       },
       formatJson(filterVal, jsonData) {
         return jsonData.map(v => filterVal.map(j => v[j]))

@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-export function listPermission(query) {
+export function listPermission(params) {
   return request({
     url: '/permission/listPermission',
     method: 'get',
-    query
+    params
   })
 }
 

@@ -94,7 +94,7 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', user).then(() => {
             this.loading = false
-            this.$router.push({ path: '/user' })
+            this.$router.push({ path: '/permission' })
           })
         }
       })
