@@ -3,6 +3,7 @@ package com.zoctan.api.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.zoctan.api.core.memcache.MemcacheClient;
 import com.zoctan.api.service.QrcodeService;
+import com.zoctan.api.core.redis.JedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class QrcodeServiceImpl implements QrcodeService {
 
     @Autowired
     MemcacheClient memcacheClient;
+    JedisUtil jedisUtil = JedisUtil.getInstance();
+
 
     /*
     * Double money, Date createTime, String orderId, String Qrcode
@@ -31,9 +34,10 @@ public class QrcodeServiceImpl implements QrcodeService {
 
 
         String mapJson = JSONObject.toJSONString(map);
-        boolean isSession = memcacheClient.add(map.get("orderId").toString(), mapJson);
+//        boolean isSession = memcacheClient.add(map.get("orderId").toString(), mapJson);
+        String status = jedisUtil.STRINGS.setEx(map.get("orderId").toString(), 123 , mapJson);
 
-        logger.info("methodName:{}|isSession:{}", methodName, isSession);
+        logger.info("methodName:{}|isSession:{}", methodName, status);
     }
 
 
