@@ -1,4 +1,4 @@
-/*
+package com.zoctan.api.util;/*
  *  Copyright 2014-2015 snakerflow.com
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +14,11 @@
  *  * limitations under the License.
  *
  */
-package com.zoctan.api.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,15 +29,16 @@ import java.util.Date;
  * 个人用工具类
  */
 public class DateUtilsZXW {
-    public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
-    public static final String DATE_Time_FORMAT_WITHOUT_SYMBOL = "yyyyMMddHHmmss";
-    public static final String DATE_FORMAT_HMS = "HH:mm:ss";
-    public static final String DATE_FORMAT_YMD = "yyyy-MM-dd";
+    protected static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
+    protected static final String DATE_FORMAT_DEFAULT2 = "yyyy/MM/dd HH:mm:ss";
+    protected static final String DATE_Time_FORMAT_WITHOUT_SYMBOL = "yyyyMMddHHmmss";
+    protected static final String DATE_FORMAT_HMS = "HH:mm:ss";
+    protected static final String DATE_DEFAULT_FORMAT = "yyyy-MM-dd";
 
     /**
      * 2010/12/01
      */
-    public static String FORMAT_SHORT = "yyyy/MM/dd";
+    public static String DATE_SHORT_FORMAT = "yyyy/MM/dd";
     /**
      * 英文全称 如：2010-12-01 23:15:06
      */
@@ -75,24 +74,13 @@ public class DateUtilsZXW {
     }
 
     public static String getCurrentDay() {
-        return new DateTime().toString(DATE_FORMAT_YMD);
+        return new DateTime().toString(DATE_DEFAULT_FORMAT);
     }
 
     //返回当前年月日
-    public static String getNowStringDate() {
+    public static String getNowDate() {
         Date date = new Date();
         return new SimpleDateFormat("yyyy年MM月dd日").format(date);
-    }
-
-    //返回当前年月日
-    public static Date getNowDateDate() {
-        Date date1 = null;
-        try {
-            date1 = new SimpleDateFormat("yyyy年MM月dd日").parse(getNowStringDate());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date1;
     }
 
     //返回当前年月日
@@ -260,20 +248,30 @@ public class DateUtilsZXW {
 
 
     public static boolean isValidDate(String str) {
-        return isValidByFormat(str, FORMAT_SHORT);
+        // String str = "2018/07/13";
+        DateFormat formatter = new SimpleDateFormat(DATE_SHORT_FORMAT);
+        try {
+            Date date = (Date) formatter.parse(str);
+            return str.equals(formatter.format(date));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static boolean isValidTime(String str) {
-        return isValidByFormat(str, DATE_FORMAT_HMS);
+        // String str = "13:01:03";
+        DateFormat formatter = new SimpleDateFormat(DATE_FORMAT_HMS);
+        try {
+            Date date = (Date) formatter.parse(str);
+            return str.equals(formatter.format(date));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static boolean isValidDateTime(String str) {
-        return isValidByFormat(str, DATE_Time_FORMAT_WITHOUT_SYMBOL);
-    }
-
-    public static boolean isValidByFormat(String str, String format) {
         // String str = "13:01:03";
-        DateFormat formatter = new SimpleDateFormat(format);
+        DateFormat formatter = new SimpleDateFormat(DATE_Time_FORMAT_WITHOUT_SYMBOL);
         try {
             Date date = (Date) formatter.parse(str);
             return str.equals(formatter.format(date));

@@ -13,6 +13,15 @@ public class ResultGenerator {
     private static final String DEFAULT_UNAUTHORIZED_MESSAGE = "Need authorized";
     private static final String DEFAULT_METHOD_NOT_ALLOWED_MESSAGE = "Request method incorrect";
 
+
+    public static Result generate(final Integer code, final String msg, final Object data) {
+        return new Result
+                .Builder(code)
+                .msg(msg)
+                .data(data)
+                .build();
+    }
+
     public static Result genOkResult() {
         return new Result
                 .Builder(HttpStatus.OK.value())
