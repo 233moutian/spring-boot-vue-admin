@@ -3,7 +3,6 @@ package com.zoctan.api.service.impl;
 import com.zoctan.api.api.RemitApi;
 import com.zoctan.api.core.container.SystemEnums;
 import com.zoctan.api.core.jwt.JWTSetting;
-import com.zoctan.api.core.memcache.MemcacheClient;
 import com.zoctan.api.core.redis.JedisUtil;
 import com.zoctan.api.core.response.Result;
 import com.zoctan.api.core.service.AbstractService;
@@ -11,16 +10,17 @@ import com.zoctan.api.mapper.QrcodeMapper;
 import com.zoctan.api.model.pay.QrcodeItem;
 import com.zoctan.api.service.QrcodeService;
 import com.zoctan.api.util.DateUtils;
-import com.zoctan.api.util.DateUtilsZXW;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
+import javax.jms.Destination;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,12 +36,14 @@ public class QrcodeServiceImpl extends AbstractService<QrcodeItem> implements Qr
     private static Logger logger = LoggerFactory.getLogger(QrcodeServiceImpl.class);
 
     @Autowired
+    private JmsMessagingTemplate jmsMessagingTemplate;      // 专门用于写message的
+
+    @Autowired
     private QrcodeMapper qrcodeMapper;
     /*@Autowired
     private MemcacheClient memcacheClient;*/
     @Resource
     private JWTSetting jwtSetting;
-
 
     /*
     * 存入二维码及其其他信息
@@ -115,12 +117,16 @@ public class QrcodeServiceImpl extends AbstractService<QrcodeItem> implements Qr
         String[] keys = keySets.toArray(new String[keySets.size()]);
         Map<String, String> resultMap = JedisUtil.getInstance().HASH.hgetAll(keys[0]);
         JedisUtil.getInstance().KEYS.del(keys[0]);    // 拿到手就踢掉这条数据
-        Example example = new Example(QrcodeItem.class);
+        Example example = new Example(QrcodeItem.class);    // 通用mapper Example语法
         example.createCriteria().andEqualTo("orderId", resultMap.get("orderId"));
         QrcodeItem qrcodeItem = new QrcodeItem();
         qrcodeItem.setStatus(2);    // 2.客户端已获取
         qrcodeItem.setUpdateTime(new Date());
         qrcodeMapper.updateByConditionSelective(qrcodeItem, example);
+        // 发布消息, 有一个订单被消费了
+        jmsMessagingTemplate.convertAndSend(
+                new ActiveMQQueue(SystemEnums.ACTIVEMQ_QUEUE_HT_RT_QRCODE.getName()),
+                resultMap);
         return new Result
                 .Builder(Integer.parseInt(SystemEnums.RESPONSE_Code_0.getCode()))
                 .msg(SystemEnums.RESPONSE_Code_0.getName())

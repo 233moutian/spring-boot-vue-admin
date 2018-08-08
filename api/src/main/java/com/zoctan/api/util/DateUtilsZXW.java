@@ -26,7 +26,7 @@ import java.util.Date;
 
 /**
  * Created by zxw on 2018/7/11 0011.
- * 个人用工具类
+ * zxw个人用工具类
  */
 public class DateUtilsZXW {
     protected static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";

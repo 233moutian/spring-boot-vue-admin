@@ -1,8 +1,5 @@
 package com.zoctan.api.core.container;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by zxw on 2018/7/13 0013.
  * 系统统一常量类
@@ -19,6 +16,8 @@ public enum SystemEnums {
     RESPONSE_Code_566("566", "数组异常"),
     RESPONSE_Code_600("600", "parm为空!"),
     RESPONSE_Code_0("0", "操作成功"),
+
+    ACTIVEMQ_QUEUE_HT_RT_QRCODE("QRCODE", "htpay.retransmission.qrcode"),
     //  固定模块接口返回码--以下为二维码模块
     RESPONSE_Code_801001("801001", "签名验证不通过!"),
     RESPONSE_Code_801002("801002", "redis插入失败!"),
@@ -216,8 +215,9 @@ public enum SystemEnums {
     CertificateType_V("V", "统一社会信用代码"),
     // 二级商户状态
     Status_0("0", "关闭"),
-    Status_1("1", "正常"),;
+    Status_1("1", "正常");
 
+/*
 //        System.out.println(Enums.PayTypeID_NATIVE.getCode());// 通过枚举类中枚举名获取到枚举的code值——打印NATIVE
 //        System.out.println(Enums.map.get(Enums.PayTypeID_NATIVE.getCode()));// 通过枚举类中枚举的code值获取到对应的name描述——打印原生扫码支付
 
@@ -232,6 +232,7 @@ public enum SystemEnums {
             }
         }
     }
+*/
 
     SystemEnums(String code, String name) {
         this.code = code;
