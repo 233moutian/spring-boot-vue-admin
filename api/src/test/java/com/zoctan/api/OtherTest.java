@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.zoctan.api.api.RemitApi;
 import com.zoctan.api.core.jwt.JWTSetting;
 import com.zoctan.api.core.memcache.MemcacheClient;
-import com.zoctan.api.core.redis.JedisUtil;
 import com.zoctan.api.util.RSAUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,8 +67,12 @@ public class OtherTest {
     * */
     @Test(timeout = 5000)
     public void getRole() throws Exception {
-        System.out.println(JedisUtil.getInstance().STRINGS.get("test"));
-        System.out.println(JedisUtil.getInstance().STRINGS.setEx("test02", 1010101, "test02!!!"));
+//        System.out.println(JedisUtil.getInstance().STRINGS.get("test"));
+//        System.out.println(JedisUtil.getInstance().STRINGS.setEx("test02", 1010101, "test02!!!"));
+        String[] str=context.getBeanDefinitionNames();
+        for (String string : str) {
+            System.out.println("..."+string);
+        }
     }
 
 }

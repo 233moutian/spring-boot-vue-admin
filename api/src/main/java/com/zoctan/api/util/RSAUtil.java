@@ -2,6 +2,7 @@ package com.zoctan.api.util;
 
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -13,6 +14,7 @@ import javax.crypto.Cipher;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -87,7 +89,9 @@ public class RSAUtil {
     private byte[] replaceAndBase64Decode(final String file/*, final String headReplace, final String tailReplace*/) throws Exception {
         final ResourceLoader loader = new DefaultResourceLoader();
         final Resource resource = loader.getResource(file);
-        final File f = resource.getFile();
+        String tempPath = System.getProperty("java.io.tmpdir") + System.currentTimeMillis() + ".pem";
+        File f = new File(tempPath);
+        IOUtils.copy(resource.getInputStream(), new FileOutputStream(f));
         final FileInputStream fis = new FileInputStream(f);
         final DataInputStream dis = new DataInputStream(fis);
         final byte[] keyBytes = new byte[(int) f.length()];
