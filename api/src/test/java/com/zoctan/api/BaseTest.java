@@ -1,7 +1,6 @@
 package com.zoctan.api;
 
 import com.zoctan.api.core.jwt.JWTSetting;
-import com.zoctan.api.core.memcache.MemcacheClient;
 import com.zoctan.api.util.RSAUtil;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,6 @@ import javax.annotation.Resource;
 public class BaseTest {
     @Autowired
     WebApplicationContext context;
-    @Autowired
-    MemcacheClient memcacheClient;
     @Resource
     private JWTSetting jwtSetting;
     @Resource
