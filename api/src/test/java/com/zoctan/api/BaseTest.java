@@ -2,6 +2,7 @@ package com.zoctan.api;
 
 import com.zoctan.api.core.jwt.JWTSetting;
 import com.zoctan.api.util.RSAUtil;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,4 +27,13 @@ public class BaseTest {
     private JWTSetting jwtSetting;
     @Resource
     private RSAUtil rsaUtil;
+
+    /*
+     * 测试dao方法
+     * */
+    @Test
+    public void getRole() throws Exception {
+        System.out.println("test");
+    }
+
 }
