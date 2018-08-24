@@ -1,5 +1,6 @@
 package com.zoctan.api.controller.admin;
 
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zoctan.api.core.jwt.JwtUtil;
@@ -77,6 +78,15 @@ public class UserController {
     @GetMapping("/info")
     public Result info(final Principal user) {
         final User userDB = this.userService.findDetailByUsername(user.getName());
+        return ResultGenerator.genOkResult(userDB);
+    }
+
+    @GetMapping("/userInfo")
+    public Result userInfo(final Principal user) {
+        User userDB = this.userService.findDetailBy("username", user.getName());
+        if (userDB!=null){
+            userDB.setPassword(null);
+        }
         return ResultGenerator.genOkResult(userDB);
     }
 
