@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 import static com.zoctan.api.core.ProjectConstant.*;
 
 /**
@@ -19,12 +18,13 @@ import static com.zoctan.api.core.ProjectConstant.*;
 @SuppressWarnings("SameParameterValue")
 class CodeGenerator {
     // JDBC配置，请修改为你项目的实际配置
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/api_dev" + "?useUnicode=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private static final String JDBC_URL = "jdbc:mysql://120.79.192.253:3306/admin_dev" + "?useUnicode=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private static final String JDBC_USERNAME = "root";
-    private static final String JDBC_PASSWORD = "root";
+    private static final String JDBC_PASSWORD = "123456";
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
     // 项目在硬盘上的基础路径
-    private static final String PROJECT_PATH = System.getProperty("user.dir");
+//    private static final String PROJECT_PATH = System.getProperty("user.dir");
+    private static final String PROJECT_PATH = "F:\\ideaproject\\bicycle-rental\\api";
     // 模板位置
     private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";
     // java文件路径
@@ -39,7 +39,7 @@ class CodeGenerator {
     private static final String PACKAGE_PATH_CONTROLLER = packageConvertPath(CONTROLLER_PACKAGE);
 
     // @author
-    private static final String AUTHOR = "Zoctan";
+    private static final String AUTHOR = "233moutian";
     // @date
     private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
     private static final boolean isRestful = true;
@@ -51,7 +51,7 @@ class CodeGenerator {
         if (scanner.next().equals("y")) {
             overwrite = true;
         }
-        genCode("表名");
+        genCode("bike");
         //genCodeByCustomModelName("输入表名","输入自定义Model名称");
     }
 

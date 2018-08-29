@@ -26,6 +26,6 @@ public class Application {
 
     @PostConstruct
     void started() {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
     }
 }
